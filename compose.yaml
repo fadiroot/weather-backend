@@ -1,0 +1,29 @@
+﻿version: '3.8'
+
+services:
+  weatherapi:
+    image: weatherapi
+    build:
+      context: .
+      dockerfile: WeatherApi/Dockerfile
+    environment:
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgrespassword
+      - DB_NAME=weatherdb
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgrespassword
+      - POSTGRES_DB=weatherdb
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+volumes:
+  postgres_data:
